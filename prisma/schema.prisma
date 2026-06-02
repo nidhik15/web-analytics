@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model RawEvent {
+  id         Int      @id @default(autoincrement())
+  eventType  String
+  page       String
+  sessionId  String
+  visitorId  String?
+  payload    Json?
+  createdAt  DateTime @default(now())
+}
+
+model SessionData {
+  id         Int      @id @default(autoincrement())
+  sessionId  String
+  page       String
+  duration   Int
+  createdAt  DateTime @default(now())
+}
