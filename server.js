@@ -6,6 +6,8 @@ const prisma = require("./src/prisma");
 
 const app = express();
 
+const allowedOrigins = process.env.ALLOWED_ORIGIN.split(",").map(origin => origin.trim());
+
 // Prisma connection test
 (async () => {
   try {
@@ -20,7 +22,7 @@ const app = express();
 // CORS
 app.use(
   cors({
-    origin: process.env.ALLOWED_ORIGIN,
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true,
   })
@@ -93,6 +95,7 @@ const activeSessions = {};
 
 // TRACK ENDPOINT
 app.post("/track", async (req, res) => {
+  console.log("tracking");
   const error = validatePayload(req.body);
 
   if (error) {
